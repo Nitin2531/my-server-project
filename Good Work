@@ -1,0 +1,24 @@
+name: 🚀 Auto Deploy to Azure Server
+
+on:
+  push:
+    branches:
+      - main  # change to 'master' if your branch name is master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: SSH & Deploy to Azure Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: 20.244.25.118
+        username: azureuser
+        key: ${{ secrets.AZURE_SSH_KEY }}
+        script: |
+          cd ~/my-server-project
+          git pull origin main
